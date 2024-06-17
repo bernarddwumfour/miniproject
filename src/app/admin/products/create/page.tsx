@@ -1,32 +1,37 @@
 "use client";
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import { useRouter } from "next/navigation";
 
 let addproducts = async (body : createproduct) => {
   let res = await fetch("http://127.0.0.1:8000/api/products", {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
     body: JSON.stringify(body),
   });
-
+  
   if (!res.ok) {
     return undefined;
   }
   let data = await res.json();
+
+ 
+  return data
 };
 
-const page = () => {
+const page =() => {
+  const router = useRouter()
+  
   return (
     <main>
       <div className=" py-16 flex gap-16 justify-center">
-        <p className="text-center">All Products In Store</p>
+        <p className="text-center">Add Products In Store</p>
       </div>
       <Formik
-        initialValues ={{ name: "", price: 0,description: "", quantity: 0,categories_id: 0}}
+        initialValues ={{ name: "", price: 0,description: "",regions_id: 0, quantity: 0,categories_id: 0}}
         validate={(values) => {
           const errors:producterrors  = {};
           if (!values.name) {
@@ -44,13 +49,17 @@ const page = () => {
           if (values.categories_id<=0) {
             errors.categories_id = "Please select a cateory";
           }
+          if (values.regions_id<=0) {
+            errors.region = "Please select a region";
+          }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+        onSubmit={async (values, {setSubmitting }) => {
+          let data=await addproducts(values)
+          addproducts(data)
+          setSubmitting(false);
+          alert("Product Added Successfully")
+          router.push('/admin/products')
         }}
       >
         {({ isSubmitting }) => (
@@ -83,12 +92,18 @@ const page = () => {
             </div>
 
             <div className="flex flex-col gap-2 mb-6">
-              <label htmlFor="description">Cateory</label>
-              <Field className="border-[1px] outline-none border-gray-400 p-2 focus:border-primary" type="number" name="cateories_id" />
+              <label htmlFor="categories_id">Cateory</label>
+              <Field className="border-[1px] outline-none border-gray-400 p-2 focus:border-primary" type="number" name="categories_id" />
               <ErrorMessage name="categories_id" component="small" className="text-red-400"/>
             </div>
 
-            <button className="bg-primary text-white p-2 px-4 text-sm rounded-lg relative left-1/2 -translate-x-1/2"  type="submit" disabled={isSubmitting}>
+            <div className="flex flex-col gap-2 mb-6">
+              <label htmlFor="regions_id">Region</label>
+              <Field className="border-[1px] outline-none border-gray-400 p-2 focus:border-primary" type="number" name="regions_id" />
+              <ErrorMessage name="regions_id" component="small" className="text-red-400"/>
+            </div>
+
+            <button className={` text-white p-2 px-4 text-sm rounded-lg relative left-1/2 -translate-x-1/2 ${isSubmitting? "bg-gray-": "bg-primary"}`}  type="submit" disabled={isSubmitting}>
               Add Product
             </button>
           </Form>

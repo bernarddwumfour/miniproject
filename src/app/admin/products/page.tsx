@@ -3,7 +3,7 @@ import Adminproduct from './(components)/Adminproduct'
 import Link from 'next/link'
 
 const getproducts = async () =>{
-  let res = await fetch("http://127.0.0.1:8000/api/products")
+  let res = await fetch("http://127.0.0.1:8000/api/products",{cache : "no-store"})
 
   if(!(res.ok)){
     return undefined
@@ -17,6 +17,7 @@ const getproducts = async () =>{
 const page = async () => {
 
   let products =await getproducts()
+  console.log(products)
 
 
   return (
@@ -28,7 +29,7 @@ const page = async () => {
 
       </div>
     <div className="px-2 ">
-    {products  && products.map((product:product)=><Adminproduct key={product.id} product={product}/>)}
+    {products.length>0  ? products.map((product:product)=><Adminproduct key={product.id} product={product}/>) : <div>No products to Show</div>}
    </div>
 </main>
   )

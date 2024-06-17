@@ -10,7 +10,7 @@ const Adminproduct = ({product}:{product:product}) => {
     <p className="capitalize text-orange-300 font-semibold">
       {product.name}
     </p>
-    <div className="text-sm hidden md:block text-gray-500 lg:leading-6 leading-5 py-1 max-w-xl">
+    <div className="min-w-[350px] text-sm hidden md:block text-gray-500 lg:leading-6 leading-5 py-1 max-w-xl">
       {product.description}
     </div>
    

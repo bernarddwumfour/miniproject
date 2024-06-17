@@ -15,6 +15,7 @@ type createproduct = {
     description?: string,
     quantity?: number,
     categories_id?: number,
+    region? : number
   }
 
   type producterrors = {
@@ -23,4 +24,5 @@ type createproduct = {
     description?: string,
     quantity?: string,
     categories_id?: string,
+    region? : string
   }

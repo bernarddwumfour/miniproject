@@ -2,7 +2,7 @@ import Product from "./components/Product";
 
 //Fetching data or all products here
 const getproducts = async () =>{
-  let res = await fetch("http://127.0.0.1:8000/api/products")
+  let res = await fetch("http://127.0.0.1:8000/api/products",{cache : "no-store"})
 
   if(!(res.ok)){
     return undefined
