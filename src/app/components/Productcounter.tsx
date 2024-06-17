@@ -1,8 +1,10 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaCartPlus } from "react-icons/fa6";
 
 const Productcounter = ({ id }: { id: number }) => {
+  const router = useRouter()
   const [count, setcount] = useState(1);
 
   const addcount = () => {
@@ -44,6 +46,7 @@ const Productcounter = ({ id }: { id: number }) => {
     addtocart({ products_id: id, quantity: count });
     setcount(1);
     alert("Product Added To Cart");
+    router.refresh()
   };
 
   return (

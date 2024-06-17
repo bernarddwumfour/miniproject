@@ -3,27 +3,47 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
 
-let addproducts = async (body : createproduct) => {
-  let res = await fetch("http://127.0.0.1:8000/api/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  
-  if (!res.ok) {
-    return undefined;
-  }
-  let data = await res.json();
 
- 
-  return data
-};
-
-const page =() => {
+const page =async () => {
   const router = useRouter()
+
+  let getcategories = async ()=>{
+    let response = await fetch('http://127.0.0.1:8000/api/categories',{cache: "no-store"})
+    let data = await response.json()
+    return data
+  } 
+
+  let getregions = async ()=>{
+    let response = await fetch('http://127.0.0.1:8000/api/regions',{cache: "no-store"})
+    let data = await response.json()
+    return data
+  } 
+  
+  let addproducts = async (body : createproduct) => {
+    let res = await fetch("http://127.0.0.1:8000/api/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    
+    if (!res.ok) {
+      return undefined;
+    }
+    let data = await res.json();
+  
+  
+    
+    return data
+  };
+
+
+
+  let categories:category[] = await getcategories()
+  let regions:region[] = await getregions()
+  
   
   return (
     <main>
@@ -56,9 +76,8 @@ const page =() => {
         }}
         onSubmit={async (values, {setSubmitting }) => {
           let data=await addproducts(values)
-          addproducts(data)
           setSubmitting(false);
-          alert("Product Added Successfully")
+          alert(`Product ${data.name} Added Successfully`)
           router.push('/admin/products')
         }}
       >
@@ -92,14 +111,24 @@ const page =() => {
             </div>
 
             <div className="flex flex-col gap-2 mb-6">
-              <label htmlFor="categories_id">Cateory</label>
-              <Field className="border-[1px] outline-none border-gray-400 p-2 focus:border-primary" type="number" name="categories_id" />
+              <label htmlFor="categories_id">Category</label>
+              <Field as= "select"  className="border-[1px] outline-none border-gray-400 p-2 focus:border-primary" name="categories_id" id="categories_id">
+                <option value={0}>Select Category</option>
+                {categories && categories.map(category=>(
+                  <option value={category.id}>{category.name}</option>
+                ))}
+              </Field>
               <ErrorMessage name="categories_id" component="small" className="text-red-400"/>
             </div>
 
             <div className="flex flex-col gap-2 mb-6">
               <label htmlFor="regions_id">Region</label>
-              <Field className="border-[1px] outline-none border-gray-400 p-2 focus:border-primary" type="number" name="regions_id" />
+              <Field as= "select" className="border-[1px] outline-none border-gray-400 p-2 focus:border-primary" name="regions_id" id="regions_id">
+                <option value={0}>Select A Region</option>
+                {regions && regions.map(region=>(
+                  <option value={region.id}>{region.name}</option>
+                ))}
+              </Field>
               <ErrorMessage name="regions_id" component="small" className="text-red-400"/>
             </div>
 

@@ -26,3 +26,23 @@ type createproduct = {
     categories_id?: string,
     region? : string
   }
+
+  type cartitem = {
+    id: number,
+    products_id: number,
+    quantity: number,
+    product: {
+      id: number,
+      name: string,
+      description: string,
+      price: number,
+      quantity: number,
+      regions_id: number,
+      categories_id: number,
+     
+    }
+  }
+
+  type category = {id:number,name:"string"}
+
+  type region = {id:number,name:"string"}
