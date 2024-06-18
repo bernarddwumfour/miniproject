@@ -27,7 +27,7 @@ const page =async () => {
         Products In Cart
       </p>
     <div className="px-2 ">
-      {cartproducts && cartproducts.map(item => <Cartproduct item={item} />)}
+      {cartproducts && cartproducts.map(item => <Cartproduct item={item} key={item.id} />)}
    </div>
 </main>
   )

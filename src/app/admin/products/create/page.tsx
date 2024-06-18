@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
 
 
-const page =async () => {
+const Createproduct =async () => {
   const router = useRouter()
 
   let getcategories = async ()=>{
@@ -143,4 +143,4 @@ const page =async () => {
   );
 };
 
-export default page;
+export default Createproduct;

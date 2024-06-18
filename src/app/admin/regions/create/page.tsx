@@ -21,7 +21,7 @@ let addregions = async (body: { name: string }) => {
   return data
 };
 
-const page =() => {
+const Createregion =() => {
   const router= useRouter()
   return (
     <main>
@@ -68,4 +68,4 @@ const page =() => {
   );
 };
 
-export default page;
+export default Createregion;
