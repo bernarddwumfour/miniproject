@@ -2,18 +2,6 @@ import Link from "next/link";
 import React from "react";
 import Productcounter from "./Productcounter";
 
-const addtocart = async () => {
-  let res = await fetch("http://127.0.0.1:8000/api/cart", {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    return undefined;
-  }
-
-  let data = await res.json();
-  return data;
-};
 
 const Product = ({ product }: { product: product }) => {
   return (

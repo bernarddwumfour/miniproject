@@ -4,7 +4,8 @@ import Cartproduct from './(components)/Cartproduct'
 
 //Fetching data or all products here
 const getcart = async () =>{
-  let res = await fetch("http://127.0.0.1:8000/api/cart",{cache : "no-store"})
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  let res = await fetch(`${apiUrl}/cart`,{cache : "no-store"})
 
   if(!(res.ok)){
     return undefined
